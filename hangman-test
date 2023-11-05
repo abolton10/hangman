@@ -1,0 +1,97 @@
+<?php
+session_start();
+
+// Initializing game using global variable
+if (!isset($_SESSION['word'])) {
+    $wordList = ['mania', 'disco', 'plead', 'glove', 'exert', 'chair', 'happy'];
+    $_SESSION['word'] = str_split(strtoupper($wordList[array_rand($wordList)]));
+    $_SESSION['guessed'] = [];
+    $_SESSION['attempts'] = 6;
+    $_SESSION['isGameOver'] = false;
+}
+
+// Checking if game is over
+if ($_SESSION['attempts'] === 0 || count($_SESSION['guessed']) === count(array_unique($_SESSION['word']))) {
+    $_SESSION['isGameOver'] = true;
+}
+
+// Handling the user's guess
+if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
+    $letter = strtoupper($_POST['guess']);
+    
+    if (!in_array($letter, $_SESSION['guessed'])) {
+        array_push($_SESSION['guessed'], $letter);
+        
+        if (!in_array($letter, $_SESSION['word'])) {
+            $_SESSION['attempts']--;
+        }
+    }
+}
+
+// Function to display the word with underscores (for now)
+function displayWord() {
+    $display = '';
+    foreach ($_SESSION['word'] as $letter) {
+        if (in_array($letter, $_SESSION['guessed'])) {
+            $display .= $letter;
+        } else {
+            $display .= '_';
+        }
+    }
+    return $display;
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hangman Game</title> //wanna come up with a witier name
+    <style>
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+        }
+
+        .key {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .guessed {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    
+    <?php
+    if ($_SESSION['isGameOver']) {
+        echo "<h2>Game Over</h2>";
+        echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
+    } else {
+        echo "<h2>Word: " . displayWord() . "</h2>";
+        echo "<p>Attempts left: " . $_SESSION['attempts'] . "</p>";
+    }
+    ?>
+    
+    <form method="post" action="">
+        <label for="guess">Guess a letter:</label>
+        <input type="text" name="guess" maxlength="1" pattern="[A-Za-z]" required>
+        <input type="submit" value="Submit">
+    </form>
+    <div class="keyboard">
+        <?php
+        $alphabet = range('A', 'Z');
+        foreach ($alphabet as $letter) {
+            $cssClass = in_array($letter, $_SESSION['guessed']) ? 'guessed' : '';
+            echo "<div class='key $cssClass'>$letter</div>";
+        }
+        ?>
+    </div>
+</body>
+</html>
