@@ -1,7 +1,15 @@
 <?php
 session_start();
 
-// Initializing game using global variable
+if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
+    unset($_SESSION['word']);
+    unset($_SESSION['guessed']);
+    unset($_SESSION['attempts']);
+    unset($_SESSION['isGameOver']);
+    header('Location: project2.php');
+    exit;
+}
+
 if (!isset($_SESSION['word'])) {
     $wordList = ['mania', 'disco', 'plead', 'glove', 'exert', 'chair', 'happy'];
     $_SESSION['word'] = str_split(strtoupper($wordList[array_rand($wordList)]));
@@ -10,12 +18,10 @@ if (!isset($_SESSION['word'])) {
     $_SESSION['isGameOver'] = false;
 }
 
-// Checking if game is over
-if ($_SESSION['attempts'] === 0 || count($_SESSION['guessed']) === count(array_unique($_SESSION['word']))) {
+if ($_SESSION['attempts'] === 0 || count(array_intersect($_SESSION['word'], $_SESSION['guessed'])) === count(array_unique($_SESSION['word']))) {
     $_SESSION['isGameOver'] = true;
 }
 
-// Handling the user's guess
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
     $letter = strtoupper($_POST['guess']);
     
@@ -28,7 +34,6 @@ if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
     }
 }
 
-// Function to display the word with underscores (for now)
 function displayWord() {
     $display = '';
     foreach ($_SESSION['word'] as $letter) {
@@ -45,12 +50,13 @@ function displayWord() {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hangman Game</title> //wanna come up with a witier name
-    <link rel = "stylesheet type = "text/css" href = "styles.css"
+    <title>Hangman</title>
+    <link rel="stylesheet" type="text/css" href="project2.css">
 </head>
 <body>
-    <h1>Hangman Game</h1>
-    
+    <div class="header">
+        <h1>Hangman</h1>
+    </div>
     <?php
     if ($_SESSION['isGameOver']) {
         echo "<h2>Game Over</h2>";
@@ -65,6 +71,9 @@ function displayWord() {
         <label for="guess">Guess a letter:</label>
         <input type="text" name="guess" maxlength="1" pattern="[A-Za-z]" required>
         <input type="submit" value="Submit">
+        <?php if ($_SESSION['isGameOver']): ?>
+            <a href="?reset=true"><button type="button">Try Again</button></a>
+        <?php endif; ?>
     </form>
     <div class="keyboard">
         <?php
