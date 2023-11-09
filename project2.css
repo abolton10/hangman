@@ -22,6 +22,17 @@
 }
 
 body {
-    background-image: url("graph.jpeg"); 
-    background-size: auto;
+    background-color: lightblue;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 24px; 
 }
+
+.container {
+    background: url('notebook-paper-2.jpeg') no-repeat center center;
+    background-size: cover;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+}
+
