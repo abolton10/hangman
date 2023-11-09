@@ -1,17 +1,42 @@
 <?php
 session_start();
 
+//If the game is lost, takes back to index
 if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     unset($_SESSION['word']);
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
-    header('Location: project2.php');
+    header('Location: index.php');
+    exit;
+}
+
+// Check if the current level is completed
+if (isset($_GET['next']) && $_GET['next'] === 'true') {
+    $_SESSION['currentLevel'] = ($_SESSION['currentLevel'] ?? 1) + 1;
+    unset($_SESSION['word']);
+    unset($_SESSION['guessed']);
+    unset($_SESSION['attempts']);
+    unset($_SESSION['isGameOver']);
+    header('Location: level2.php');
+    exit;
+}
+
+// Define an array with word lists for different levels
+$wordLists = [
+    ['mania', 'disco', 'plead', 'glove', 'exert', 'chair', 'happy'],
+    
+];
+
+// Check if the current level exists in the word lists
+$currentLevel = $_SESSION['currentLevel'] ?? 0;
+if (!isset($wordLists[$currentLevel])) {
+    echo "You've completed all levels!";
     exit;
 }
 
 if (!isset($_SESSION['word'])) {
-    $wordList = ['mania', 'disco', 'plead', 'glove', 'exert', 'chair', 'happy'];
+    $wordList = $wordLists[$currentLevel];
     $_SESSION['word'] = str_split(strtoupper($wordList[array_rand($wordList)]));
     $_SESSION['guessed'] = [];
     $_SESSION['attempts'] = 6;
@@ -54,13 +79,22 @@ function displayWord() {
     <link rel="stylesheet" type="text/css" href="project2.css">
 </head>
 <body>
+    <div class="container">
     <div class="header">
         <h1>Hangman</h1>
     </div>
+
     <?php
     if ($_SESSION['isGameOver']) {
         echo "<h2>Game Over</h2>";
         echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
+        echo '<a href="?reset=true"><button type="button">Try Again</button></a>';
+        // Check if there is another level to move to
+        if (isset($wordLists[$currentLevel + 1])) {
+            echo '<a href="?next=true"><button type="button">Next Level</button></a>';
+        } else {
+            echo "You've completed all levels!";
+        }
     } else {
         echo "<h2>Word: " . displayWord() . "</h2>";
         echo "<p>Attempts left: " . $_SESSION['attempts'] . "</p>";
