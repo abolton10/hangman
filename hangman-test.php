@@ -7,7 +7,7 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
-    header('Location: index.php');
+    header('Location: index-hm.php');
     exit;
 }
 
