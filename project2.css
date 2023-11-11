@@ -29,5 +29,13 @@ button {
     color: white;
     border-radius: 5px;
 }
+.index-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100px;
+    height: auto;
+}
+
 
 
