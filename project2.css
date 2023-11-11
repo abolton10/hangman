@@ -1,24 +1,9 @@
 .header{
     text-align: center;
 }
-.keyboard {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    margin-top: 400px;
-    margin-left: 32px;
-}
 
-.key {
-    width: 40px;
-    height: 40px;
+.guessed-container{
     text-align: center;
-    border: 1px solid #ccc;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-.guessed {
-    background-color: rgb(47, 46, 46);
 }
 
 body {
@@ -35,4 +20,14 @@ body {
     border: 1px solid #ccc; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
 }
+button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    background-color: #64c0c8;
+    color: white;
+    border-radius: 5px;
+}
+
 
