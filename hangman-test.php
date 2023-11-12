@@ -18,7 +18,16 @@ if (isset($_GET['next']) && $_GET['next'] === 'true') {
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
-    header('Location: index-hm.php');
+    header("Location: {$_SERVER['PHP_SELF']}?mode=$gameMode");
+    exit;
+}
+
+// Set the game mode (default to easy if not specified)
+$gameMode = $_GET['mode'] ?? 'easy';
+
+// Check if the game mode exists
+if (!in_array($gameMode, ['easy', 'medium', 'hard'])) {
+    echo "Invalid game mode!";
     exit;
 }
 
@@ -33,31 +42,17 @@ function getWordList($gameMode) {
     return file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 }
 
-// Set the game mode (default to easy if not specified)
-$gameMode = $_GET['mode'] ?? 'easy';
-
-// Check if the game mode exists
-if (!in_array($gameMode, ['easy', 'medium', 'hard'])) {
-    echo "Invalid game mode!";
-    exit;
-}
-
 // Check if the current level exists in the word lists
 $currentLevel = $_SESSION['currentLevel'] ?? 0;
-$wordLists = [
-    'easy'   => ['word1', 'word2', 'word3'], // Replace with your actual word list for easy mode
-    'medium' => ['word4', 'word5', 'word6'], // Replace with your actual word list for medium mode
-    'hard'   => ['word7', 'word8', 'word9'], // Replace with your actual word list for hard mode
-];
+$wordList = getWordList($gameMode);
 
-if (!isset($wordLists[$gameMode][$currentLevel])) {
+if (!isset($wordList[$_SESSION['currentLevel']])) {
     echo "You've completed all levels!";
     exit;
 }
 
 if (!isset($_SESSION['word'])) {
-    $wordList = $wordLists[$gameMode];
-    $_SESSION['word'] = str_split(strtoupper($wordList[$currentLevel]));
+    $_SESSION['word'] = str_split(strtoupper($wordList[$_SESSION['currentLevel']]));
     $_SESSION['guessed'] = [];
     $_SESSION['attempts'] = 6;
     $_SESSION['isGameOver'] = false;
@@ -102,7 +97,7 @@ function displayWord() {
     <div class="container">
         <div class="header">
             <h1><u>H_ngm_n</u></h1>
-            <h2>Level <?php echo $currentLevel + 1; ?></h2>
+            <h2>Level <?php echo $_SESSION['currentLevel'] + 1; ?></h2>
         </div>
 
         <?php
@@ -112,7 +107,7 @@ function displayWord() {
             echo '<a href="?reset=true"><button type="button">Try Again</button></a>';
 
             // Check if there is another level to move to
-            if (isset($wordLists[$gameMode][$currentLevel + 1])) {
+            if (isset($wordList[$_SESSION['currentLevel'] + 1])) {
                 echo '<a href="?next=true"><button type="button">Next Level</button></a>';
             } else {
                 echo "You've completed all levels!";
@@ -148,6 +143,7 @@ function displayWord() {
     </div>
 </body>
 </html>
+
 
     </div>
 </body>
