@@ -37,5 +37,14 @@ button {
     height: auto;
 }
 
+.hangman-image {
+    margin-top: -8px; /* Adjust the margin top as needed */
+    text-align:center; /* Center the image */
+}
 
+.hangman-image img {
+    max-width: 100%;
+    height: auto;
+    margin-left: 50px; /* Adjust the margin left as needed */
+}
 
