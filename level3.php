@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// Set the level to 2
-$_SESSION['currentLevel'] = 1; // Level 2
+// Set the level to 3
+$_SESSION['currentLevel'] = 2; // Level 3
 
-function getMediumWordList() {
-    $filename = 'medium.txt';
+function getHardWordList() {
+    $filename = 'hard.txt';
     if (!file_exists($filename)) {
         echo "Word file not found!";
         exit;
@@ -15,7 +15,7 @@ function getMediumWordList() {
 }
 
 if (!isset($_SESSION['word'])) {
-    $wordList = getMediumWordList();
+    $wordList = getHardWordList();
     $selectedWord = $wordList[array_rand($wordList)];
     $_SESSION['word'] = str_split(strtoupper($selectedWord));
     $_SESSION['guessed'] = [];
@@ -24,7 +24,7 @@ if (!isset($_SESSION['word'])) {
 }
 
 $wordGuessed = count(array_intersect($_SESSION['word'], $_SESSION['guessed'])) === count(array_unique($_SESSION['word']));
-if ($_SESSION['attempts'] === 0 || $wordGuessed) {
+if ($_SESSION['attempts'] === 0 or $wordGuessed) {
     $_SESSION['isGameOver'] = true;
 }
 
@@ -54,21 +54,21 @@ function displayWord() {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hangman - Level 2</title>
+    <title>Hangman - Level 3</title>
     <link rel="stylesheet" type="text/css" href="project2.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1><u>H_ngm_n</u></h1>
-            <h2>Level 2</h2>
+            <h2>Level 3</h2>
         </div>
 
         <?php
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
-                echo '<a href="?next=true"><button type="button">Go to Level 3</button></a>';
+                echo '<a href="congratulations.php"><button type="button">Congratulations Page</button></a>';
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";

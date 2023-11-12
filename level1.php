@@ -1,11 +1,17 @@
 <?php
 session_start();
 
-// Set the level to 2
-$_SESSION['currentLevel'] = 1; // Level 2
+// Check if the reset parameter is set in the URL and reset the session
+if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
+    session_destroy();
+    session_start();
+}
 
-function getMediumWordList() {
-    $filename = 'medium.txt';
+// Set the level to 1
+$_SESSION['currentLevel'] = 0; // Level 1
+
+function getEasyWordList() {
+    $filename = 'easy.txt';
     if (!file_exists($filename)) {
         echo "Word file not found!";
         exit;
@@ -15,7 +21,7 @@ function getMediumWordList() {
 }
 
 if (!isset($_SESSION['word'])) {
-    $wordList = getMediumWordList();
+    $wordList = getEasyWordList();
     $selectedWord = $wordList[array_rand($wordList)];
     $_SESSION['word'] = str_split(strtoupper($selectedWord));
     $_SESSION['guessed'] = [];
@@ -54,25 +60,25 @@ function displayWord() {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hangman - Level 2</title>
+    <title>Hangman - Level 1</title>
     <link rel="stylesheet" type="text/css" href="project2.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1><u>H_ngm_n</u></h1>
-            <h2>Level 2</h2>
+            <h2>Level 1</h2>
         </div>
 
         <?php
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
-                echo '<a href="?next=true"><button type="button">Go to Level 3</button></a>';
+                echo '<a href="?next=true"><button type="button">Go to Level 2</button></a>';
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
-                echo '<form method="post" action="level1.php"><input type="submit" value="Try Again"></form>';
+                echo '<a href="level1.php?reset=true"><button type="button">Try Again</button></a>';
             }
         } else {
             echo "<h2>Word: " . displayWord() . "</h2>";
