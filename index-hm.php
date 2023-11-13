@@ -6,10 +6,13 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     session_unset();
 }
 
-// Saves progress if browswer is closed 
+// Redirect to the current level if it exists in the session
 if (isset($_SESSION['currentLevel'])) {
-    header('Location: level' . $_SESSION['currentLevel'] . '.php');
-    exit;
+    $currentLevel = $_SESSION['currentLevel'];
+    if ($currentLevel > 0) {
+        header("Location: level{$currentLevel}.php");
+        exit;
+    }
 }
 ?>
 
@@ -30,11 +33,13 @@ if (isset($_SESSION['currentLevel'])) {
         <div class="difficulty-options">
             <p>Select Difficulty:</p>
             <ul>
-                <li><a href="hangman-test.php">Lightweight</a></li>
+                <li><a href="level1.php">Lightweight</a></li>
                 <li><a href="level2.php">Hard Hitter</a></li>
                 <li><a href="level3.php">Heavy Hitter</a></li>    
             </ul>
         </div>
     </div>
 </body>
+</html>
+
 </html>
