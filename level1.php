@@ -7,15 +7,12 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
-    $_SESSION['currentLevel'] = 0; // Set the level to 0 when resetting
     header('Location: level1.php');
     exit;
 }
 
 // Set the level to 1 if it's not set
 $_SESSION['currentLevel'] = $_SESSION['currentLevel'] ?? 0;
-
-echo "Current Level: " . $_SESSION['currentLevel'] . "<br>";
 
 function getRandomWordList($count = 3) {
     $filename = 'easy.txt';
@@ -24,7 +21,7 @@ function getRandomWordList($count = 3) {
         exit;
     }
     $wordList = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    
+
     // Shuffle the word list and select the first $count words
     shuffle($wordList);
     return array_slice($wordList, 0, $count);
@@ -34,7 +31,7 @@ if (!isset($_SESSION['word'])) {
     $wordList = getRandomWordList();
 
     // Set the word for the current level
-    $selectedWord = $wordList[$_SESSION['currentLevel'] - 1];
+    $selectedWord = $wordList[$_SESSION['currentLevel']];
 
     $_SESSION['word'] = str_split(strtoupper($selectedWord));
     $_SESSION['guessed'] = [];
@@ -87,19 +84,7 @@ function displayWord() {
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed && $_SESSION['attempts'] > 0) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
-                $nextLevel = $_SESSION['currentLevel'] + 1;
-                if (isset($wordList[$nextLevel - 1])) {
-                    // Reset the session for the next level
-                    unset($_SESSION['word']);
-                    unset($_SESSION['guessed']);
-                    unset($_SESSION['attempts']);
-                    unset($_SESSION['isGameOver']);
-                    $_SESSION['currentLevel']++;
-                    header("Location: level{$_SESSION['currentLevel']}.php");
-                    exit;
-                } else {
-                    echo "<p>Congratulations! You've completed all levels!</p>";
-                }
+                echo "<a href='?reset=true'><button type='button'>Next Word</button></a>";
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
