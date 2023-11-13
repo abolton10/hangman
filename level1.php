@@ -1,18 +1,19 @@
 <?php
 session_start();
 
+// Set the level to 1 if it's not set
+$_SESSION['currentLevel'] = 1;
+
 // Check if the reset parameter is set in the URL and reset the session
 if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     unset($_SESSION['word']);
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
+    $_SESSION['currentLevel'] = 1; // Set the level to 1 when resetting
     header('Location: level1.php');
     exit;
 }
-
-// Set the level to 1 if it's not set
-$_SESSION['currentLevel'] = $_SESSION['currentLevel'] ?? 0;
 
 function getRandomWordList($count = 3) {
     $filename = 'easy.txt';
@@ -31,7 +32,7 @@ if (!isset($_SESSION['word'])) {
     $wordList = getRandomWordList();
 
     // Set the word for the current level
-    $selectedWord = $wordList[$_SESSION['currentLevel']];
+    $selectedWord = $wordList[$_SESSION['currentLevel'] - 1];
 
     $_SESSION['word'] = str_split(strtoupper($selectedWord));
     $_SESSION['guessed'] = [];
@@ -42,6 +43,13 @@ if (!isset($_SESSION['word'])) {
 $wordGuessed = count(array_intersect($_SESSION['word'], $_SESSION['guessed'])) === count(array_unique($_SESSION['word']));
 if ($_SESSION['attempts'] === 0 || $wordGuessed) {
     $_SESSION['isGameOver'] = true;
+}
+
+// Check for victory after completing level 3
+if ($_SESSION['currentLevel'] == 3 && $wordGuessed) {
+    echo "<h2>Congratulations! You've completed all levels!</h2>";
+    echo "<a href='index-hm.php'><button type='button'>Return Home</button></a>";
+    exit;
 }
 
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
@@ -70,25 +78,38 @@ function displayWord() {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hangman - Level <?php echo $_SESSION['currentLevel'] + 1; ?></title>
+    <title>Hangman - Level <?php echo $_SESSION['currentLevel']; ?></title>
     <link rel="stylesheet" type="text/css" href="project2.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1><u>H_ngm_n</u></h1>
-            <h2>Level <?php echo $_SESSION['currentLevel'] + 1; ?> (Easy)</h2>
+            <h2>Level <?php echo $_SESSION['currentLevel']; ?> (Easy)</h2>
         </div>
 
         <?php
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed && $_SESSION['attempts'] > 0) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
-                echo "<a href='?reset=true'><button type='button'>Next Word</button></a>";
+                $_SESSION['currentLevel']++;
+                if ($_SESSION['currentLevel'] <= 3) {
+                    // Reset the session for the next word
+                    unset($_SESSION['word']);
+                    unset($_SESSION['guessed']);
+                    unset($_SESSION['attempts']);
+                    unset($_SESSION['isGameOver']);
+                    header("Location: level{$_SESSION['currentLevel']}.php");
+                    exit;
+                }
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
-                echo "<a href='?reset=true'><button type='button'>Try Again</button></a>";
+                if ($_SESSION['currentLevel'] == 1) {
+                    echo "<a href='level1.php?reset=true'><button type='button'>Try Again</button></a>";
+                } else {
+                    echo "<a href='level1.php?reset=true'><button type='button'>Try Again</button></a>";
+                }
             }
         } else {
             // Display the current level information
@@ -117,3 +138,4 @@ function displayWord() {
     </div>
 </body>
 </html>
+
