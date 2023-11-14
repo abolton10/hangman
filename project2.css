@@ -180,3 +180,48 @@ button {
     transform: rotate(-8deg);
   }
 
+.bg {
+    background-image: url('notebookpaper-paper-2.jpeg');
+}
+
+.item {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+    mix-blend-mode: multiply;
+}
+
+table.leaderboard {
+    background-color: #f2f2f2;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Horizontal notebook lines */
+table.leaderboard tr:not(:first-child) {
+    border-top: 3px solid #4682b4;
+    border-bottom:3px solid #4682b4;
+}
+
+/* First row styling */
+table.leaderboard tr:first-child {
+    border-bottom: 3px solid #4682b4;
+}
+
+/* Header Styling */
+table.leaderboard thead {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 4;
+}
+
+table.leaderboard tr:hover {
+    background-color: #4682b4;
+}
+
+/* red line for notebook */
+table.leaderboard td:first-child, table.leaderboard th:first-child {
+    border-right: 2px solid red; 
+    width:10%;
+}
