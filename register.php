@@ -1,6 +1,3 @@
-<?php
-
-?>
 <html>
     <head>
         <title>Register</title>
@@ -10,10 +7,10 @@
 
         <p>Save your score to the leaderboard by registering here</p>
 
-        <form action="register-submit-hard.php" method="post"> 
-                Username: <input name="name" type="text" id="name"> 
+        <form action="register-submit.php" method="post"> 
+                Username: <input name="name" type="text"> 
                 <p> 
-                Highscore: <input type="hidden" name="highscore" value="<?php echo $HighScore; ?>">
+                Highscore: <input type="text" name="highscore" value="<?php echo $HighScore; ?>" readonly>
                 <p>
                 <input type="submit" value="Sign Up"> 
         </form>
