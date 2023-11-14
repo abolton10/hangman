@@ -1,30 +1,29 @@
-<?php
-?>
 <html>
     <link rel="stylesheet" type="text/css" href="project2.css">
     <head>
         <title>Celebration</title>
     </head>
     <body>
+        
         <div class="container">
-        <h1>Congratulations! Thank you for playing H_ngm_n!</h2>
-        <div class="wrapper">
-            <div class="head"></div>
-            <div class="torso"></div>
-            <div class="leftarm"></div>
-            <div class="rightarm"></div>
-            <div class="leftleg"></div>
-            <div class="leftfoot"></div>
-            <div class="rightleg"></div>
-            <div class="rightfoot"></div>
-        </div> 
+            <h1>Congratulations! Thank you for playing H_ngm_n!</h2>
+            <div class="wrapper">
+                <div class="head"></div>
+                <div class="torso"></div>
+                <div class="leftarm"></div>
+                <div class="rightarm"></div>
+                <div class="leftleg"></div>
+                <div class="leftfoot"></div>
+                <div class="rightleg"></div>
+                <div class="rightfoot"></div>
+            </div> 
         </div>
 
-        <p>Sign in to save your spot on the leaderboard!</p>
+        <p><a href='./register.php'>Register to save your spot on the leaderboard!</a></p>
 
         <?php
             // Read the leaderboard file into an array of lines
-            $leaderboardData = file('HardLeaderboard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $leaderboardData = file('Leaderboard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if ($leaderboardData !== false) {
                 // Initialize an associative array to store username => highscore pairs
@@ -45,7 +44,7 @@
 
         <?php 
             if (!empty($leaderboard)) : ?>
-                <table>
+                <table class="leaderboard">
                     <thead>
                         <tr>
                             <th>Rank</th>
@@ -70,6 +69,5 @@
             <?php else: ?>
                 <p>No data available in the leaderboard.</p>
             <?php endif; ?>
-
     </body>
 </html>
