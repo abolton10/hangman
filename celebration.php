@@ -20,7 +20,7 @@
         </div> 
         </div>
 
-                <p>Sign in to save your spot on the leaderboard!</p>
+        <p>Sign in to save your spot on the leaderboard!</p>
 
         <?php
             // Read the leaderboard file into an array of lines
