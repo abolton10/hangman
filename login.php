@@ -5,7 +5,7 @@
 
 		/* Define username and associated highscore array */
         // Read the file into an array of lines
-        $lines = file('HardLeaderboard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $lines = file('Leaderboard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         // Initialize an empty associative array to store username-highscore pairs
         $logins = array();
@@ -24,11 +24,12 @@
     }
 		
 		/* Check and assign submitted Username and Highscore to new variable */
-		$Username = isset($_POST['Username']) ? $_POST['Username'] : '';
-		$Highscore = isset($_POST['Highscore']) ? $_POST['Highscore'] : '';
+		$Username = isset($_POST['name']) ? $_POST['name'] : '';
+		$HighScore = isset($_POST['highscore']) ? $_POST['highscore'] : '';
 		
+
 		/* Check Username and Highscore existence in defined array */		
-		if (isset($logins[$Username]) && $logins[$Username] == $Highscore){
+		if (isset($logins[$Username]) && $logins[$Username] == $HighScore){
 			/* Success: Set session variables and redirect to Protected page  */
 			$_SESSION['UserData']['Username']=$logins[$Username];
 			header("location:index.php");
@@ -37,6 +38,7 @@
 			/*Unsuccessful attempt: Set error message */
 			$msg="<span style='color:red'>Invalid Login Details</span>";
 		}
+        
 	}
 ?>
 <html>
@@ -45,12 +47,12 @@
     </head>
     <body>
         <h1>Login</h1>
-        <form action="signup-submit.php" method="post"> 
-                Username: <input name="name" type="text" id="name"> 
+        <form action="celebration.php" method="post"> 
+                Username: <input name="name" type="text"> 
                 <p> 
-                Highscore: <input name="name" type="text" id="name"> 
-                <p> 
-                <input type="submit" highscore="Sign Up"> 
+                Highscore: <input type="text" name="highscore" value="<?php echo $HighScore; ?>" readonly>
+                <p>
+                <input type="submit" value="Sign Up"> 
         </form>
     </body>
 </html>
