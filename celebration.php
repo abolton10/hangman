@@ -4,7 +4,7 @@
         <title>Celebration</title>
     </head>
     <body>
-        
+
         <div class="container">
             <h1>Congratulations! Thank you for playing H_ngm_n!</h2>
             <div class="wrapper">
@@ -45,19 +45,19 @@
         <?php 
             if (!empty($leaderboard)) : ?>
                 <table class="leaderboard">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
+                    <thead class="leaderboard">
+                        <tr class="leaderboard">
+                            <th class="leaderboard">Rank</th>
                             <th>Username</th>
                             <th>High Score</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="leaderboard">
                         <?php
                         $rank = 1;
                         foreach ($leaderboard as $username => $highscore) {
-                            echo "<tr>";
-                            echo "<td>{$rank}</td>";
+                            echo "<tr class='leaderboard'>";
+                            echo "<td class='leaderboard'>{$rank}</td>";
                             echo "<td>{$username}</td>";
                             echo "<td>{$highscore}</td>";
                             echo "</tr>";
