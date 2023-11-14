@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newUser = "$name,$highscore";
 
     // Append the new user information to the users.txt file
-    file_put_contents("HardLeaderboard.txt", $newUser . PHP_EOL, FILE_APPEND);
+    file_put_contents("Leaderboard.txt", $newUser . PHP_EOL, FILE_APPEND);
 
     // Thank the user and provide a link to Login.php
     echo "<html>
