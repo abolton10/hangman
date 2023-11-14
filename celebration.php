@@ -19,5 +19,57 @@
             <div class="rightfoot"></div>
         </div> 
         </div>
+
+                <p>Sign in to save your spot on the leaderboard!</p>
+
+        <?php
+            // Read the leaderboard file into an array of lines
+            $leaderboardData = file('users.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+            if ($leaderboardData !== false) {
+                // Initialize an associative array to store username => highscore pairs
+                $leaderboard = array();
+
+                // Process each line and populate the leaderboard array
+                foreach ($leaderboardData as $line) {
+                    list($username, $highscore) = explode(',', $line, 2);
+                    $leaderboard[$username] = (int)$highscore;
+                }
+
+                // Sort the leaderboard array based on high scores in descending order
+                arsort($leaderboard);
+            }
+        ?>
+
+        <h1>Leaderboard</h1>
+
+        <?php 
+            if (!empty($leaderboard)) : ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>High Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $rank = 1;
+                        foreach ($leaderboard as $username => $highscore) {
+                            echo "<tr>";
+                            echo "<td>{$rank}</td>";
+                            echo "<td>{$username}</td>";
+                            echo "<td>{$highscore}</td>";
+                            echo "</tr>";
+                            $rank++;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No data available in the leaderboard.</p>
+            <?php endif; ?>
+
     </body>
 </html>
