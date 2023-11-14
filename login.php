@@ -13,25 +13,25 @@
         // Process each line and split it into username and highscore
         foreach ($lines as $line) {
             // Assuming the username and highscore are separated by a comma
-            list($Username, $Highscore) = explode(',', $line, 2);
+            list($username, $highscore) = explode(',', $line, 2);
 
             // Trim whitespace from the username and highscore
-            $Username = trim($Username);
-            $Highscore = trim($Highscore);
+            $username = trim($username);
+            $highscore = trim($highscore);
 
             // Store the username-highscore pair in the array
-            $logins[$Username] = $Highscore;
+            $logins[$username] = $highscore;
     }
 		
-		/* Check and assign submitted Username and Highscore to new variable */
-		$Username = isset($_POST['name']) ? $_POST['name'] : '';
-		$HighScore = isset($_POST['highscore']) ? $_POST['highscore'] : '';
+		/* Check and assign submitted username and highscore to new variable */
+		$username = isset($_POST['name']) ? $_POST['name'] : '';
+		$highscore = isset($_POST['highscore']) ? $_POST['highscore'] : '';
 		
 
-		/* Check Username and Highscore existence in defined array */		
-		if (isset($logins[$Username]) && $logins[$Username] == $HighScore){
+		/* Check username and highscore existence in defined array */		
+		if (isset($logins[$username]) && $logins[$username] == $highscore){
 			/* Success: Set session variables and redirect to Protected page  */
-			$_SESSION['UserData']['Username']=$logins[$Username];
+			$_SESSION['UserData']['username']=$logins[$username];
 			header("location:index.php");
 			exit;
 		} else {
@@ -48,9 +48,9 @@
     <body>
         <h1>Login</h1>
         <form action="celebration.php" method="post"> 
-                Username: <input name="name" type="text"> 
+                username: <input name="name" type="text"> 
                 <p> 
-                Highscore: <input type="text" name="highscore" value="<?php echo $HighScore; ?>" readonly>
+                highscore: <input type="text" name="highscore" value="<?php echo $highscore; ?>" readonly>
                 <p>
                 <input type="submit" value="Sign Up"> 
         </form>
