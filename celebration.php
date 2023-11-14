@@ -24,7 +24,7 @@
 
         <?php
             // Read the leaderboard file into an array of lines
-            $leaderboardData = file('users.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $leaderboardData = file('HardLeaderboard.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
             if ($leaderboardData !== false) {
                 // Initialize an associative array to store username => highscore pairs
