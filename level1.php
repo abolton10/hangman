@@ -107,6 +107,9 @@ function displayWord() {
             <h1><u>H_ngm_n</u></h1>
             <h2>Level <?php echo $_SESSION['wins']; ?> (Easy)</h2>
         </div>
+        <div class="bg">
+           <img src="<?php echo 6 - $_SESSION['attempts']; ?>.png" class="item" alt="Hangman Image">
+        </div>
 
         <?php
         if ($_SESSION['isGameOver']) {
