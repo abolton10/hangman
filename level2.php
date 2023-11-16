@@ -23,11 +23,7 @@ if (!isset($_SESSION['word'])) {
     $_SESSION['isGameOver'] = false;
 }
 
-$wordGuessed = count(array_intersect($_SESSION['word'], $_SESSION['guessed'])) === count(array_unique($_SESSION['word']));
-if ($_SESSION['attempts'] === 0 || $wordGuessed) {
-    $_SESSION['isGameOver'] = true;
-}
-
+// Process the guess
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
     $letter = strtoupper($_POST['guess']);
     if (!in_array($letter, $_SESSION['guessed'])) {
@@ -36,6 +32,19 @@ if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
             $_SESSION['attempts']--;
         }
     }
+}
+
+// Check if the word is guessed
+$wordGuessed = true;
+foreach ($_SESSION['word'] as $letter) {
+    if (!in_array($letter, $_SESSION['guessed'])) {
+        $wordGuessed = false;
+        break;
+    }
+}
+
+if ($_SESSION['attempts'] === 0 || $wordGuessed) {
+    $_SESSION['isGameOver'] = true;
 }
 
 function displayWord() {
