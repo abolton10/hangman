@@ -45,12 +45,15 @@ if (!isset($_SESSION['word'])) {
 }
 
 // Process the guess
+$shakingClass = ''; // Initialize the variable
+
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
     $letter = strtoupper($_POST['guess']);
     if (!in_array($letter, $_SESSION['guessed'])) {
         array_push($_SESSION['guessed'], $letter);
         if (!in_array($letter, $_SESSION['word'])) {
             $_SESSION['attempts']--;
+            $shakingClass = 'shake'; // Add this class for the shaking animation
         }
     }
 }
@@ -66,6 +69,10 @@ foreach ($_SESSION['word'] as $letter) {
 
 if ($_SESSION['attempts'] === 0 || $wordGuessed) {
     $_SESSION['isGameOver'] = true;
+    if ($_SESSION['attempts'] === 0) {
+        // Play the boo.mp3 sound effect
+        echo '<audio autoplay><source src="boo.mp3" type="audio/mpeg"></audio>';
+    }
 }
 
 // Check for victory after completing level 3
@@ -107,14 +114,21 @@ function displayWord() {
             <h1><u>H_ngm_n</u></h1>
             <h2>Level <?php echo $_SESSION['wins']; ?> (Easy)</h2>
         </div>
-        <div class="bg">
-           <img src="<?php echo 6 - $_SESSION['attempts']; ?>.png" class="item" alt="Hangman Image">
+        <div class="bg1 <?php echo $shakingClass; ?>">
+            <?php
+            if ($_SESSION['isGameOver'] && $wordGuessed) {
+                echo '<img src="dancing.gif" class="item" alt="dancing Image">';
+            } else {
+                echo '<img src="images/' . (6 - $_SESSION['attempts']) . '.png" class="item" alt="Hangman Image">';
+            }
+            ?>
         </div>
 
         <?php
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed) {
-                echo "<h2>Congratulations! You guessed the word!</h2>";
+                echo "<h2>Congratulations! You guessed the word! Two more levels to go!</h2>";
+                echo "<a href='index-hm.php'><button type='button'>Take me Home</button></a>";
                 $_SESSION['currentLevel']++;
                 $_SESSION['wins']++; // Increment the wins counter
                 if ($_SESSION['currentLevel'] <= 3) {
