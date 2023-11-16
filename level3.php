@@ -68,7 +68,7 @@ function displayWord() {
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
-                echo '<a href="congratulations.php"><button type="button">Congratulations Page</button></a>';
+                echo '<a href="celebration.php"><button type="button">Congratulations Page</button></a>';
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
