@@ -23,12 +23,15 @@ if (!isset($_SESSION['word'])) {
     $_SESSION['isGameOver'] = false;
 }
 
+$shakingClass = '';
+
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
     $letter = strtoupper($_POST['guess']);
     if (!in_array($letter, $_SESSION['guessed'])) {
         array_push($_SESSION['guessed'], $letter);
         if (!in_array($letter, $_SESSION['word'])) {
             $_SESSION['attempts']--;
+            $shakingClass = 'shake';
         }
     }
 }
@@ -42,6 +45,9 @@ foreach ($_SESSION['word'] as $letter) {
 }
 if ($_SESSION['attempts'] === 0 or $wordGuessed) {
     $_SESSION['isGameOver'] = true;
+    if ($_SESSION['attempts'] === 0) {
+        echo '<audio autoplay><source src="boo.mp3" type="audio/mpeg"></audio>';
+    }
 }
 
 function displayWord() {
@@ -69,8 +75,14 @@ function displayWord() {
             <h1><u>H_ngm_n</u></h1>
             <h2>Level 3</h2>
         </div>
-        <div class="bg">
-           <img src="<?php echo 6 - $_SESSION['attempts']; ?>.png" class="item" alt="Hangman Image">
+        <div class="bg1 <?php echo $shakingClass; ?>">
+            <?php
+            if ($_SESSION['isGameOver'] && $wordGuessed) {
+                echo '<img src="dancing.gif" class="item" alt="dancing Image">';
+            } else {
+                echo '<img src="images/' . (6 - $_SESSION['attempts']) . '.png" class="item" alt="Hangman Image">';
+            }
+            ?>
         </div>
 
         <?php
