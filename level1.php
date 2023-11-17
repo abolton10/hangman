@@ -127,7 +127,7 @@ function displayWord() {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word! Two more levels to go!</h2>";
                 echo "<a href='index-hm.php'><button type='button'>Take me Home</button></a>";
-                $_SESSION['currentscore'] += (500) + ($_SESSION['attempts'] * 300); //highscore increases by 500 for each level completetion and 300 points for every attempt left
+                $_SESSION['currentscore'] += (500) + ($_SESSION['attempts'] * 300); //score increases by 500 for each level completetion and 300 points for every attempt left
                 $_SESSION['currentLevel']++;
                 $_SESSION['wins']++; // Increment the wins counter
                 if ($_SESSION['currentLevel'] <= 3) {
