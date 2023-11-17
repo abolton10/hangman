@@ -50,7 +50,7 @@
         <form action="celebration.php" method="post"> 
                 username: <input name="name" type="text"> 
                 <p> 
-                highscore: <input type="text" name="highscore" value="<?php echo $highscore; ?>" readonly>
+                highscore: <input type="text" name="highscore" value="<?php echo $_SESSION['highscore']; ?>" readonly>
                 <p>
                 <input type="submit" value="Sign Up"> 
         </form>
