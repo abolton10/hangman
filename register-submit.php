@@ -1,8 +1,10 @@
 <?php
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve user input from the form
     $name = $_POST['name'];
-    $highscore = $_POST['highscore'];
+    $highscore = $_SESSION['highscore'];
 
     // Create a line of user information
     $newUser = "$name,$highscore";
