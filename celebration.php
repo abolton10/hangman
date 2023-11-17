@@ -1,3 +1,13 @@
+<?php
+    session_start();
+
+    // Resets current Score for potential next run
+    if ($currentscore >= $_SESSION['highscore']) {
+        $_SESSION['highscore'] = $currentscore;
+        $currentscore=0;
+    }
+
+?>
 <html>
     <link rel="stylesheet" type="text/css" href="project2.css">
     <head>
