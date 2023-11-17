@@ -19,6 +19,16 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
 // Initialize the wins counter if it's not set
 $_SESSION['wins'] = $_SESSION['wins'] ?? 1;
 
+// Initialize the high score if it doesn't exist in the session
+if (!isset($_SESSION['highscore'])) {
+    $_SESSION['highscore'] = 0;
+}
+
+// Update the high score if the current score is higher
+if ($currentScore > $_SESSION['highscore']) {
+    $_SESSION['highscore'] = $currentScore;
+}
+
 function getRandomWordList($count = 3) {
     $filename = 'medium.txt';
     if (!file_exists($filename)) {
@@ -117,6 +127,7 @@ function displayWord() {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word! One more level to go!</h2>";
                 echo "<a href='index-hm.php'><button type='button'>Take me Home</button></a>";
+                $_SESSION['currentscore'] += (500) + ($_SESSION['attempts'] * 300); //score increases by 500 for each level completetion and 300 points for every attempt left
                 $_SESSION['currentLevel']++;
                 $_SESSION['wins']++; // Increment the wins counter
                 if ($_SESSION['currentLevel'] <= 3) {
@@ -150,6 +161,7 @@ function displayWord() {
             // Display the current level information
             echo "<h2>Word: " . displayWord() . "</h2>";
             echo "<p>Attempts left: " . $_SESSION['attempts'] . "</p>";
+            // echo "<p>Score: ". $_SESSION['currentScore']. "</p>";
             echo "<form method='post' action=''>";
             echo "<label for='guess'>Guess a letter:</label>";
             echo "<input type='text' name='guess' maxlength='1' pattern='[A-Za-z]' required>";
