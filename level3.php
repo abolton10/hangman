@@ -100,7 +100,6 @@ function displayWord() {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
                 $_SESSION['currentscore'] += (30) + ($_SESSION['attempts'] * 10); //score increases by 30 for each level completetion and 10 points for every attempt left
-                echo '<a href="celebration.php"><button type="button">Congratulations Page</button></a>';
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
