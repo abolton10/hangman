@@ -10,6 +10,7 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'true') {
     unset($_SESSION['guessed']);
     unset($_SESSION['attempts']);
     unset($_SESSION['isGameOver']);
+    unset($_SESSION['currentscore']);
     $_SESSION['currentLevel'] = 1; // Set the level to 1 when resetting
     $_SESSION['wins'] = 1; // Reset the wins counter
     header('Location: level1.php');
@@ -163,6 +164,7 @@ function displayWord() {
             // Display the current level information
             echo "<h2>Word: " . displayWord() . "</h2>";
             echo "<p>Attempts left: " . $_SESSION['attempts'] . "</p>";
+            echo "<p>Score: " . $_SESSION['currentscore'] . "</p>";
             echo "<form method='post' action=''>";
             echo "<label for='guess'>Guess a letter:</label>";
             echo "<input type='text' name='guess' maxlength='1' pattern='[A-Za-z]' required>";
