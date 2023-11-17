@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
     <head>
         <title>Register</title>
@@ -10,7 +13,7 @@
         <form action="register-submit.php" method="post"> 
                 Username: <input name="name" type="text"> 
                 <p> 
-                Highscore: <input type="text" name="highscore" value="<?php echo $HighScore; ?>" readonly>
+                Highscore: <input type="text" name="highscore" value="<?php echo $_SESSION['highscore']; ?>" readonly>
                 <p>
                 <input type="submit" value="Sign Up"> 
         </form>
