@@ -161,7 +161,6 @@ function displayWord() {
             // Display the current level information
             echo "<h2>Word: " . displayWord() . "</h2>";
             echo "<p>Attempts left: " . $_SESSION['attempts'] . "</p>";
-            // echo "<p>Score: ". $_SESSION['currentScore']. "</p>";
             echo "<form method='post' action=''>";
             echo "<label for='guess'>Guess a letter:</label>";
             echo "<input type='text' name='guess' maxlength='1' pattern='[A-Za-z]' required>";
