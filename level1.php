@@ -76,18 +76,6 @@ if ($_SESSION['attempts'] === 0 || $wordGuessed) {
 }
 
 // Check for victory after completing level 3
-if ($_SESSION['wins'] > 3) {
-    echo "<h2>Congratulations! You've won 3 times and advanced to Level 2!</h2>";
-    echo "<a href='level2.php'><button type='button'>Play Level 2</button></a>";
-    // Reset the session for a new game
-    unset($_SESSION['word']);
-    unset($_SESSION['guessed']);
-    unset($_SESSION['attempts']);
-    unset($_SESSION['isGameOver']);
-    $_SESSION['currentLevel'] = 1;
-    $_SESSION['wins'] = 1;
-    exit;
-}
 
 function displayWord() {
     $display = '';
@@ -140,6 +128,17 @@ function displayWord() {
                     header("Location: level1.php");
                     exit;
                 }
+                if ($_SESSION['wins'] > 3) {
+                    echo "<a href='level2.php'><button type='button'>Play Level 2</button></a>";
+                    // Reset the session for a new game
+                    unset($_SESSION['word']);
+                    unset($_SESSION['guessed']);
+                    unset($_SESSION['attempts']);
+                    unset($_SESSION['isGameOver']);
+                    $_SESSION['currentLevel'] = 1;
+                    $_SESSION['wins'] = 1;
+                    exit;
+}
             } else {
                 echo "<h2>Game Over</h2>";
                 echo "<p>The word was: " . implode('', $_SESSION['word']) . "</p>";
