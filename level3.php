@@ -23,6 +23,16 @@ if (!isset($_SESSION['word'])) {
     $_SESSION['isGameOver'] = false;
 }
 
+// Initialize the high score if it doesn't exist in the session
+if (!isset($_SESSION['highscore'])) {
+    $_SESSION['highscore'] = 0;
+}
+
+// Update the high score if the current score is higher
+if ($currentScore > $_SESSION['highscore']) {
+    $_SESSION['highscore'] = $currentScore;
+}
+
 $shakingClass = '';
 
 if (isset($_POST['guess']) && !$_SESSION['isGameOver']) {
@@ -89,6 +99,7 @@ function displayWord() {
         if ($_SESSION['isGameOver']) {
             if ($wordGuessed) {
                 echo "<h2>Congratulations! You guessed the word!</h2>";
+                $_SESSION['currentscore'] += (500) + ($_SESSION['attempts'] * 300); //highscore increases by 500 for each level completetion and 300 points for every attempt left
                 echo '<a href="celebration.php"><button type="button">Congratulations Page</button></a>';
             } else {
                 echo "<h2>Game Over</h2>";
